@@ -30,7 +30,12 @@ class productCreateBloc extends Bloc<ProductCreateEvent, ProductCreateState> {
       isSuccess = await ProductCreateRequest(FormValues);
       print(isSuccess.toString());
       emit(ProductSubmittedState());
-      emit(ProductCreated(formValues: {}));
+      // if (FormValues['Img']!.isEmpty) {
+      //   emit(
+      //     ProductCreated('Image Link Required!'),
+      //   );
+      // }
+      //emit(ProductCreated(formValues: {}));
     });
   }
 }

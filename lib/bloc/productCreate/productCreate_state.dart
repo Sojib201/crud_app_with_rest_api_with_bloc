@@ -15,18 +15,18 @@ class ProductSubmittedState extends ProductCreateState {
 }
 
 class ProductCreated extends ProductCreateState {
-  final Map<String, String> formValues;
-  final bool isLoading;
+  // final Map<String, String> formValues;
+  // final bool isLoading;
   final String? errorMessage;
 
-  ProductCreated({
-    required this.formValues,
-    this.isLoading = false,
+  ProductCreated(
+    // required this.formValues,
+    // this.isLoading = false,
     this.errorMessage,
-  });
+  );
 
   @override
-  List<Object?> get props => [formValues, isLoading, errorMessage];
+  List<Object?> get props => [errorMessage];
 }
 
 

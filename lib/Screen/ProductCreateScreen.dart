@@ -211,9 +211,15 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                       pQty: FormValues['Qty'].toString(),
                                       pTotalPrice:
                                           FormValues['TotalPrice'].toString(),
-
                                     ),
                                   );
+                              if (FormValues['ProductName'] != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Image Link Required!'),
+                                  ),
+                                );
+                              }
                             },
                             child: SuccessButtonChild('Submit'),
                           ),
