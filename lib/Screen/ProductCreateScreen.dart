@@ -22,7 +22,6 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
     "TotalPrice": "",
     "UnitPrice": ""
   };
-  productCreateBloc bloc = productCreateBloc();
   bool Loading = false;
 
   InputOnChange(MapKey, Textvalue) {
@@ -212,6 +211,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                       pQty: FormValues['Qty'].toString(),
                                       pTotalPrice:
                                           FormValues['TotalPrice'].toString(),
+
                                     ),
                                   );
                             },
