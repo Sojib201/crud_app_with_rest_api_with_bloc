@@ -28,3 +28,14 @@ class ProductCreated extends ProductCreateState {
   @override
   List<Object?> get props => [formValues, isLoading, errorMessage];
 }
+
+
+class DropDownLoadedState extends ProductCreateState {
+  final List<String> dropdownlist;
+  final String? selectedItem;
+
+  DropDownLoadedState(this.dropdownlist, this.selectedItem);
+
+  @override
+  List<Object?> get props => [dropdownlist, selectedItem];
+}

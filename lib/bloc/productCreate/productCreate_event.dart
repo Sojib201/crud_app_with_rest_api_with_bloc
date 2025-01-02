@@ -12,6 +12,21 @@ class InputChanged extends ProductCreateEvent {
   List<Object?> get props => [key, value];
 }
 
+class LoadDropDownLoadList extends ProductCreateEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class DropdownItemSelected extends ProductCreateEvent {
+  String itemSelected;
+  DropdownItemSelected(this.itemSelected);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [itemSelected];
+}
+
 class SubmitForm extends ProductCreateEvent {
   final String pName, pCode, pImage, pPrice, pTotalPrice, pQty;
 

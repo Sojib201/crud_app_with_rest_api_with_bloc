@@ -53,6 +53,13 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
   // }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<productCreateBloc>().add(LoadDropDownLoadList());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -104,40 +111,80 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                           },
                           decoration: AppInputDecoration('Total Price'),
                         ),
-                        SizedBox(height: 20),
-                        AppDropDownStyle(
-                          DropdownButton(
-                            value: FormValues['Qty'],
-                            items: [
-                              DropdownMenuItem(
-                                child: Text('Select Qt'),
-                                value: "",
-                              ),
-                              DropdownMenuItem(
-                                child: Text('1 pcs'),
-                                value: "1 pcs",
-                              ),
-                              DropdownMenuItem(
-                                child: Text('2 pcs'),
-                                value: '2 pcs',
-                              ),
-                              DropdownMenuItem(
-                                child: Text('3 pcs'),
-                                value: '3 pcs',
-                              ),
-                              DropdownMenuItem(
-                                child: Text('4 pcs'),
-                                value: '4 pcs',
-                              ),
-                            ],
-                            onChanged: (Textvalue) {
-                              InputOnChange("Qty", Textvalue);
-                            },
-                            underline: Container(),
-                            isExpanded: true,
-                          ),
+                        const SizedBox(height: 20),
+
+                        BlocBuilder<productCreateBloc, ProductCreateState>(
+                          builder: (context, state) {
+                            if (state is DropDownLoadedState) {
+                              return AppDropDownStyle(DropdownButton<String>(
+                                onChanged: (String? newValue) {
+                                  context.read<productCreateBloc>().add(
+                                        DropdownItemSelected(newValue!),
+                                      );
+                                },
+                                //dropdownColor: Colors.white,
+                                //icon: Icon(Icons.arrow_drop_down),
+                                // iconSize: 35,
+                                // elevation: 50,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                                isExpanded: true,
+                                // borderRadius: BorderRadius.circular(5),
+                                // iconEnabledColor: Colors.black,
+                                //padding: EdgeInsets.all(20),
+                                underline: Container(),
+                                value: state.selectedItem,
+                                hint: Text(
+                                  'Select Qty',
+                                  // style: TextStyle(
+                                  //     fontWeight: FontWeight.bold,
+                                  //     fontSize: 18),
+                                ),
+                                items: state.dropdownlist.map((String item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(item),
+                                  );
+                                }).toList(),
+                              ));
+                            }
+                            return Text('Empty');
+                          },
                         ),
-                        SizedBox(height: 20),
+
+                        // AppDropDownStyle(
+                        //   DropdownButton(
+                        //     value: FormValues['Qty'],
+                        //     items: const [
+                        //       DropdownMenuItem(
+                        //         value: "",
+                        //         child: Text('Select Qt'),
+                        //       ),
+                        //       DropdownMenuItem(
+                        //         value: "1 pcs",
+                        //         child: Text('1 pcs'),
+                        //       ),
+                        //       DropdownMenuItem(
+                        //         value: '2 pcs',
+                        //         child: Text('2 pcs'),
+                        //       ),
+                        //       DropdownMenuItem(
+                        //         value: '3 pcs',
+                        //         child: Text('3 pcs'),
+                        //       ),
+                        //       DropdownMenuItem(
+                        //         value: '4 pcs',
+                        //         child: Text('4 pcs'),
+                        //       ),
+                        //     ],
+                        //     onChanged: (Textvalue) {
+                        //       InputOnChange("Qty", Textvalue);
+                        //     },
+                        //     underline: Container(),
+                        //     isExpanded: true,
+                        //   ),
+                        // ),
+                        const SizedBox(height: 20),
                         BlocListener<productCreateBloc, ProductCreateState>(
                           listener: (context, state) {
                             if (state is ProductSubmittedState) {
@@ -149,28 +196,26 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                               );
                             }
                           },
-                          child: Container(
-                            child: ElevatedButton(
-                              style: AppButtonStyle(),
-                              onPressed: () {
-                                //FormOnSubmit();
-                                context.read<productCreateBloc>().add(
-                                      SubmitForm(
-                                        pName: FormValues['ProductName']
-                                            .toString(),
-                                        pCode: FormValues['ProductCode']
-                                            .toString(),
-                                        pImage: FormValues['Img'].toString(),
-                                        pPrice:
-                                            FormValues['UnitPrice'].toString(),
-                                        pQty: FormValues['Qty'].toString(),
-                                        pTotalPrice:
-                                            FormValues['TotalPrice'].toString(),
-                                      ),
-                                    );
-                              },
-                              child: SuccessButtonChild('Submit'),
-                            ),
+                          child: ElevatedButton(
+                            style: AppButtonStyle(),
+                            onPressed: () {
+                              //FormOnSubmit();
+                              context.read<productCreateBloc>().add(
+                                    SubmitForm(
+                                      pName:
+                                          FormValues['ProductName'].toString(),
+                                      pCode:
+                                          FormValues['ProductCode'].toString(),
+                                      pImage: FormValues['Img'].toString(),
+                                      pPrice:
+                                          FormValues['UnitPrice'].toString(),
+                                      pQty: FormValues['Qty'].toString(),
+                                      pTotalPrice:
+                                          FormValues['TotalPrice'].toString(),
+                                    ),
+                                  );
+                            },
+                            child: SuccessButtonChild('Submit'),
                           ),
                         ),
                       ],
