@@ -29,6 +29,16 @@ class ProductCreated extends ProductCreateState {
   List<Object?> get props => [errorMessage];
 }
 
+// class ProductValidationError extends ProductCreateState {
+//   final String errorMessage;
+//
+//   ProductValidationError(this.errorMessage);
+//
+//   @override
+//   List<Object?> get props => [errorMessage];
+// }
+
+
 
 class DropDownLoadedState extends ProductCreateState {
   final List<String> dropdownlist;

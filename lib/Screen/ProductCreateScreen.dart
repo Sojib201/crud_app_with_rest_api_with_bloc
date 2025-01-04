@@ -94,7 +94,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                           onChanged: (Textvalue) {
                             InputOnChange("Img", Textvalue);
                           },
-                          decoration: AppInputDecoration('Product Image'),
+                          decoration: AppInputDecoration('Product Image URL'),
                         ),
                         SizedBox(height: 20),
                         TextFormField(
@@ -120,6 +120,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                   context.read<productCreateBloc>().add(
                                         DropdownItemSelected(newValue!),
                                       );
+                                  InputOnChange("Qty", newValue);
                                 },
                                 //dropdownColor: Colors.white,
                                 //icon: Icon(Icons.arrow_drop_down),
@@ -132,6 +133,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 // iconEnabledColor: Colors.black,
                                 //padding: EdgeInsets.all(20),
                                 underline: Container(),
+                                //value: state.selectedItem,
                                 value: state.selectedItem,
                                 hint: Text(
                                   'Select Qty',
@@ -184,46 +186,137 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                         //   ),
                         // ),
                         const SizedBox(height: 20),
+
                         BlocListener<productCreateBloc, ProductCreateState>(
                           listener: (context, state) {
+                            // if (state is ProductValidationError) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(content: Text(state.errorMessage)),
+                            //   );
+                            // } else
                             if (state is ProductSubmittedState) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductGridViewScreen(),
-                                ),
+                                    builder: (context) =>
+                                        ProductGridViewScreen()),
                               );
                             }
                           },
                           child: ElevatedButton(
                             style: AppButtonStyle(),
                             onPressed: () {
-                              //FormOnSubmit();
-                              context.read<productCreateBloc>().add(
-                                    SubmitForm(
-                                      pName:
-                                          FormValues['ProductName'].toString(),
-                                      pCode:
-                                          FormValues['ProductCode'].toString(),
-                                      pImage: FormValues['Img'].toString(),
-                                      pPrice:
-                                          FormValues['UnitPrice'].toString(),
-                                      pQty: FormValues['Qty'].toString(),
-                                      pTotalPrice:
-                                          FormValues['TotalPrice'].toString(),
-                                    ),
-                                  );
-                              if (FormValues['ProductName'] != null) {
+                              if (FormValues['ProductName']!.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Image Link Required!'),
+                                    content: Text('Product Name is required!'),
                                   ),
                                 );
+                                return;
                               }
+                              if (FormValues['ProductCode']!.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Product Code is required!'),
+                                  ),
+                                );
+                                return;
+                              }
+                              if (FormValues['Img']!.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Image Link is required!'),
+                                  ),
+                                );
+                                return;
+                              }
+                              if (FormValues['UnitPrice']!.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Unit Price is required!'),
+                                  ),
+                                );
+                                return;
+                              }
+                              if (FormValues['TotalPrice']!.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Total Price is required!'),
+                                  ),
+                                );
+                                return;
+                              }
+                              final currentState =
+                                  context.read<productCreateBloc>().state;
+                              String? userType;
+
+                              if (currentState is DropDownLoadedState) {
+                                userType = currentState.selectedItem;
+                              }
+
+                              if (userType == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Quantity is required!'),
+                                  ),
+                                );
+                                return;
+                              }
+                              context.read<productCreateBloc>().add(
+                                    SubmitForm(
+                                      pName: FormValues['ProductName']!,
+                                      pCode: FormValues['ProductCode']!,
+                                      pImage: FormValues['Img']!,
+                                      pPrice: FormValues['UnitPrice']!,
+                                      pTotalPrice: FormValues['TotalPrice']!,
+                                      pQty: FormValues['Qty']!,
+                                    ),
+                                  );
                             },
                             child: SuccessButtonChild('Submit'),
                           ),
                         ),
+
+                        // BlocListener<productCreateBloc, ProductCreateState>(
+                        //   listener: (context, state) {
+                        //     if (state is ProductSubmittedState) {
+                        //       Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => ProductGridViewScreen(),
+                        //         ),
+                        //       );
+                        //     }
+                        //   },
+                        //   child: ElevatedButton(
+                        //     style: AppButtonStyle(),
+                        //     onPressed: () {
+                        //       //FormOnSubmit();
+                        //       context.read<productCreateBloc>().add(
+                        //             SubmitForm(
+                        //               pName:
+                        //                   FormValues['ProductName'].toString(),
+                        //               pCode:
+                        //                   FormValues['ProductCode'].toString(),
+                        //               pImage: FormValues['Img'].toString(),
+                        //               pPrice:
+                        //                   FormValues['UnitPrice'].toString(),
+                        //               pQty: FormValues['Qty'].toString(),
+                        //               pTotalPrice:
+                        //                   FormValues['TotalPrice'].toString(),
+                        //             ),
+                        //           );
+                        //       if (FormValues['ProductName'] != null) {
+                        //         ScaffoldMessenger.of(context).showSnackBar(
+                        //           SnackBar(
+                        //             content: Text('Image Link Required!'),
+                        //           ),
+                        //         );
+                        //       }
+                        //     },
+                        //     child: SuccessButtonChild('Submit'),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ))),

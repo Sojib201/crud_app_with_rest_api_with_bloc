@@ -2,16 +2,6 @@ import 'package:equatable/equatable.dart';
 
 abstract class ProductCreateEvent extends Equatable {}
 
-class InputChanged extends ProductCreateEvent {
-  final String key;
-  final String value;
-
-  InputChanged(this.key, this.value);
-
-  @override
-  List<Object?> get props => [key, value];
-}
-
 class LoadDropDownLoadList extends ProductCreateEvent {
   @override
   // TODO: implement props
@@ -28,15 +18,21 @@ class DropdownItemSelected extends ProductCreateEvent {
 }
 
 class SubmitForm extends ProductCreateEvent {
-  final String pName, pCode, pImage, pPrice, pTotalPrice, pQty;
+  final String pName;
+  final String pCode;
+  final String pImage;
+  final String pPrice;
+  final String pQty;
+  final String pTotalPrice;
 
-  SubmitForm(
-      {required this.pName,
-      required this.pCode,
-      required this.pImage,
-      required this.pPrice,
-      required this.pTotalPrice,
-      required this.pQty});
+  SubmitForm({
+    required this.pName,
+    required this.pCode,
+    required this.pImage,
+    required this.pPrice,
+    required this.pQty,
+    required this.pTotalPrice,
+  });
 
   @override
   // TODO: implement props

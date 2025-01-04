@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class productCreateBloc extends Bloc<ProductCreateEvent, ProductCreateState> {
   final List<String> dropdownlist = ['1 pcs', '2 pcs', '3 pcs', '4 pcs'];
   String? selectedItem;
-  bool isSuccess = false;
+  //bool isSuccess = false;
   productCreateBloc() : super(ProductCreateInitial()) {
     on<LoadDropDownLoadList>((event, emit) {
       emit(DropDownLoadedState(dropdownlist, selectedItem));
@@ -17,25 +17,41 @@ class productCreateBloc extends Bloc<ProductCreateEvent, ProductCreateState> {
 
       emit(DropDownLoadedState(dropdownlist, selectedItem));
     });
+
     on<SubmitForm>((event, emit) async {
-      Map<String, String> FormValues = {
-        "Img": event.pImage,
-        "ProductCode": event.pCode,
+      Map<String, String> formValues = {
         "ProductName": event.pName,
-        "Qty": event.pQty,
-        "TotalPrice": event.pPrice,
-        "UnitPrice": event.pTotalPrice
+        "ProductCode": event.pCode,
+        "Img": event.pImage,
+        "UnitPrice": event.pPrice,
+        "TotalPrice": event.pTotalPrice,
+        "Qty": event.pQty
       };
 
-      isSuccess = await ProductCreateRequest(FormValues);
-      print(isSuccess.toString());
+      await ProductCreateRequest(formValues);
+
       emit(ProductSubmittedState());
-      // if (FormValues['Img']!.isEmpty) {
-      //   emit(
-      //     ProductCreated('Image Link Required!'),
-      //   );
-      // }
-      //emit(ProductCreated(formValues: {}));
     });
+
+    // on<SubmitForm>((event, emit) async {
+    //   Map<String, String> FormValues = {
+    //     "Img": event.pImage,
+    //     "ProductCode": event.pCode,
+    //     "ProductName": event.pName,
+    //     "Qty": event.pQty,
+    //     "TotalPrice": event.pPrice,
+    //     "UnitPrice": event.pTotalPrice
+    //   };
+    //
+    //   isSuccess = await ProductCreateRequest(FormValues);
+    //   print(isSuccess.toString());
+    //   emit(ProductSubmittedState());
+    //   // if (FormValues['Img']!.isEmpty) {
+    //   //   emit(
+    //   //     ProductCreated('Image Link Required!'),
+    //   //   );
+    //   // }
+    //   //emit(ProductCreated(formValues: {}));
+    // });
   }
 }
