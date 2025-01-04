@@ -10,12 +10,14 @@ class productCreateBloc extends Bloc<ProductCreateEvent, ProductCreateState> {
   //bool isSuccess = false;
   productCreateBloc() : super(ProductCreateInitial()) {
     on<LoadDropDownLoadList>((event, emit) {
-      emit(DropDownLoadedState(dropdownlist, selectedItem));
+     // emit(DropDownLoadedState(dropdownlist, selectedItem));
+      emit(DropDownLoadedState(dropdownlist, null));
     });
     on<DropdownItemSelected>((event, emit) {
       selectedItem = event.itemSelected;
 
       emit(DropDownLoadedState(dropdownlist, selectedItem));
+
     });
 
     on<SubmitForm>((event, emit) async {
@@ -31,6 +33,7 @@ class productCreateBloc extends Bloc<ProductCreateEvent, ProductCreateState> {
       await ProductCreateRequest(formValues);
 
       emit(ProductSubmittedState());
+
     });
 
     // on<SubmitForm>((event, emit) async {

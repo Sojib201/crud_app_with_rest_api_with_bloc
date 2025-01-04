@@ -38,8 +38,6 @@ class ProductCreated extends ProductCreateState {
 //   List<Object?> get props => [errorMessage];
 // }
 
-
-
 class DropDownLoadedState extends ProductCreateState {
   final List<String> dropdownlist;
   final String? selectedItem;
@@ -49,3 +47,4 @@ class DropDownLoadedState extends ProductCreateState {
   @override
   List<Object?> get props => [dropdownlist, selectedItem];
 }
+

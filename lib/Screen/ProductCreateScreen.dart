@@ -246,22 +246,30 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                                 );
                                 return;
                               }
-                              final currentState =
-                                  context.read<productCreateBloc>().state;
-                              String? userType;
-
-                              if (currentState is DropDownLoadedState) {
-                                userType = currentState.selectedItem;
-                              }
-
-                              if (userType == null) {
+                              if (FormValues['Qty']!.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
+                                  SnackBar(
                                     content: Text('Quantity is required!'),
                                   ),
                                 );
                                 return;
                               }
+                              // final currentState =
+                              //     context.read<productCreateBloc>().state;
+                              // String? userType;
+                              //
+                              // if (currentState is DropDownLoadedState) {
+                              //   userType = currentState.selectedItem;
+                              // }
+                              //
+                              // if (userType == null) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text('Quantity is required!'),
+                              //     ),
+                              //   );
+                              //   return;
+                              // }
                               context.read<productCreateBloc>().add(
                                     SubmitForm(
                                       pName: FormValues['ProductName']!,
