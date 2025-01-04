@@ -14,29 +14,7 @@ class ProductSubmittedState extends ProductCreateState {
   List<Object?> get props => [];
 }
 
-class ProductCreated extends ProductCreateState {
-  // final Map<String, String> formValues;
-  // final bool isLoading;
-  final String? errorMessage;
 
-  ProductCreated(
-    // required this.formValues,
-    // this.isLoading = false,
-    this.errorMessage,
-  );
-
-  @override
-  List<Object?> get props => [errorMessage];
-}
-
-// class ProductValidationError extends ProductCreateState {
-//   final String errorMessage;
-//
-//   ProductValidationError(this.errorMessage);
-//
-//   @override
-//   List<Object?> get props => [errorMessage];
-// }
 
 class DropDownLoadedState extends ProductCreateState {
   final List<String> dropdownlist;
